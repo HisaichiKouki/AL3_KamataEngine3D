@@ -23,7 +23,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	win->CreateGameWindow(L"LD2A_01_ヒサイチ_コウキ");
 
 
-
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize(win);
