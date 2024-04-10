@@ -49,6 +49,7 @@ void GameScene::Update() {
 
 	debugCamera_->Update();
 
+#ifdef DEBUG_
 	ImGui::Begin("Debug1");
 	ImGui::Text("Kamata Tarou %d.%d.%d", 2050, 12, 31);
 
@@ -57,6 +58,7 @@ void GameScene::Update() {
 	ImGui::End();
 
 	ImGui::ShowDemoWindow();
+#endif // DEBUG_
 }
 
 void GameScene::Draw() {
