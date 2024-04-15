@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
-
+#include "AxisIndicator.h"
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
@@ -24,17 +24,24 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, texHandle_);
 
 	debugCamera_ = new DebugCamera(1280, 720);
+
+	AxisIndicator::GetInstance()->SetVisible(true);
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 }
 
 void GameScene::Update() {
 	player_->Update();
-	debugCamera_->Update();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_T)) {
 		isDebugCameraActive = true;
 	}
 	if (isDebugCameraActive) {
-		viewProjection_.matView = debugCamera_->GetViewProjection();
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.UpdateMatrix();
 	}
 #endif // _DEBUG
 }
