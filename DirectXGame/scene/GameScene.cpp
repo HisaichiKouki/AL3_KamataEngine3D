@@ -7,6 +7,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 	delete model_;
 	delete player_;
+	delete debugCamera_;
 }
 
 void GameScene::Initialize() {
@@ -20,11 +21,23 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	player_ = new Player();
-	player_->Initialize(model_,texHandle_);
+	player_->Initialize(model_, texHandle_);
+
+	debugCamera_ = new DebugCamera(1280, 720);
 }
 
 void GameScene::Update() {
-	player_->Update(); }
+	player_->Update();
+	debugCamera_->Update();
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_T)) {
+		isDebugCameraActive = true;
+	}
+	if (isDebugCameraActive) {
+		viewProjection_.matView = debugCamera_->GetViewProjection();
+	}
+#endif // _DEBUG
+}
 
 void GameScene::Draw() {
 

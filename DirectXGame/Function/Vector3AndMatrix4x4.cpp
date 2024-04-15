@@ -1,12 +1,12 @@
 #include "Vector3AndMatrix4x4.h"
 #include <assert.h>
-void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label)
-{
-	Novice::ScreenPrintf(x, y, "%.02f", vector.x);
-	Novice::ScreenPrintf(x + kColumWidth, y, "%.02f", vector.y);
-	Novice::ScreenPrintf(x + kColumWidth * 2, y, "%.02f", vector.z);
-	Novice::ScreenPrintf(x + kColumWidth * 3, y, ":%s", label);
-}
+//void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label)
+//{
+//	Novice::ScreenPrintf(x, y, "%.02f", vector.x);
+//	Novice::ScreenPrintf(x + kColumWidth, y, "%.02f", vector.y);
+//	Novice::ScreenPrintf(x + kColumWidth * 2, y, "%.02f", vector.z);
+//	Novice::ScreenPrintf(x + kColumWidth * 3, y, ":%s", label);
+//}
 
 Vector3 Add(const Vector3& v1, const Vector3& v2)
 {
@@ -44,18 +44,18 @@ Vector3 Normalize(const Vector3& v)
 	return Vector3(v.x / length, v.y / length, v.z / length);
 }
 
-void Matrix4x4ScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label)
-{
-	Novice::ScreenPrintf(x, y, "%s", label);
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			Novice::ScreenPrintf(x + col * kColumWidth, y + (row + 1) * kRowHeight, "%6.02f", matrix.m[row][col]);
-		}
-	}
-
-}
+//void Matrix4x4ScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label)
+//{
+//	Novice::ScreenPrintf(x, y, "%s", label);
+//	for (int row = 0; row < 4; row++)
+//	{
+//		for (int col = 0; col < 4; col++)
+//		{
+//			Novice::ScreenPrintf(x + col * kColumWidth, y + (row + 1) * kRowHeight, "%6.02f", matrix.m[row][col]);
+//		}
+//	}
+//
+//}
 
 Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2)
 {

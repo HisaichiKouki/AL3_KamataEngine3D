@@ -1,5 +1,5 @@
 #pragma once
-#include <Novice.h>
+//#include <Novice.h>
 #include <Vector3.h>
 #include <Matrix4x4.h>
 #include<cmath>

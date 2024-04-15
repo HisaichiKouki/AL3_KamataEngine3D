@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 
 #include "Player.h"
+#include "DebugCamera.h"
 
 
 /// <summary>
@@ -46,6 +47,12 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	
+
+	/// <summary>
+	/// ゲームシーン用
+	/// </summary>
+
 	uint32_t texHandle_ = 0;
 	Model* model_ = nullptr;
 	WorldTransform worldTransform_;
@@ -53,7 +60,6 @@ private: // メンバ変数
 
 	Player* player_ = nullptr;
 
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
+	bool isDebugCameraActive = false;
+	DebugCamera* debugCamera_ = nullptr;
 };

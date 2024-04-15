@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "Vector3AndMatrix4x4.h"
+#include <ImGuiManager.h>
 class Player {
 public:
 	void Initialize(Model*model,uint32_t textureHandle);

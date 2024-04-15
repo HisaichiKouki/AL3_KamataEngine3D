@@ -52,6 +52,12 @@
     <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Function">
+      <UniqueIdentifier>{38ed5e15-4d8e-480c-896c-0f7266e70aa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Function">
+      <UniqueIdentifier>{d43a4f14-55d1-4781-aad8-dd2d506d7033}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,7 +79,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Function\Vector3AndMatrix4x4.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Function</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,7 +174,7 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Function\Vector3AndMatrix4x4.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Function</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
