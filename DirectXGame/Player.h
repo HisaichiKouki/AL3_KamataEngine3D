@@ -6,8 +6,12 @@
 #include "Vector3AndMatrix4x4.h"
 #include <ImGuiManager.h>
 #include "PlayerBullet.h"
+
+#include <stdlib.h>
+#include <list>
 class Player {
 public:
+	~Player();
 	void Initialize(Model*model,uint32_t textureHandle);
 	void Update();
 	void Draw(ViewProjection& viewProjection);
@@ -20,4 +24,6 @@ private:
 	uint32_t textureHandle_ = 0u;
 	Input* input_ = nullptr;
 	PlayerBullet* bullet_ = nullptr;
+
+	std::list<PlayerBullet*> bullets_;
 };

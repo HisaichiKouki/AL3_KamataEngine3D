@@ -1,5 +1,11 @@
 #include "Player.h"
 
+Player::~Player() {
+	for (PlayerBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
+
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	assert(model);
 	model_ = model;
@@ -37,9 +43,12 @@ void Player::Update() {
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
 	Attack();
-	if (bullet_) {
-		bullet_->Update();
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Update();
 	}
+	/*if (bullet_) {
+		bullet_->Update();
+	}*/
 	// worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
 	// worldTransform_.TransferMatrix();
@@ -52,9 +61,12 @@ void Player::Update() {
 
 void Player::Draw(ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	if (bullet_) {
-		bullet_->Draw(viewProjection);
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection);
 	}
+	/*if (bullet_) {
+		bullet_->Draw(viewProjection);
+	}*/
 }
 
 void Player::Rotate() {
@@ -68,10 +80,16 @@ void Player::Rotate() {
 
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
+
+		/*if (bullet_) {
+			delete bullet_;
+			bullet_ = nullptr;
+		}*/
 		PlayerBullet* newBullet = new PlayerBullet();
 
 		newBullet->Initialize(model_, this->worldTransform_.translation_);
+		bullets_.push_back(newBullet);
 
-		bullet_ = newBullet;
+		//bullet_ = newBullet;
 	}
 }
