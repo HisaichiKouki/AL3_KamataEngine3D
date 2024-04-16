@@ -14,16 +14,17 @@ void Player::Update() {
 	Vector3 move = {0, 0, 0};
 	const float kCharacterSpeed = 0.2f;
 
-	if (input_->PushKey(DIK_A)) {
+	if (input_->PushKey(DIK_LEFTARROW)) {
 		move.x -= kCharacterSpeed;
-	} else if (input_->PushKey(DIK_D)) {
+	} else if (input_->PushKey(DIK_RIGHTARROW)) {
 		move.x += kCharacterSpeed;
 	}
-	if (input_->PushKey(DIK_S)) {
+	if (input_->PushKey(DIK_DOWNARROW)) {
 		move.y -= kCharacterSpeed;
-	} else if (input_->PushKey(DIK_W)) {
+	} else if (input_->PushKey(DIK_UPARROW)) {
 		move.y += kCharacterSpeed;
 	}
+	Rotate();
 
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.y += move.y;
@@ -37,9 +38,10 @@ void Player::Update() {
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
 
-	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	//worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-		worldTransform_.TransferMatrix();
+		//worldTransform_.TransferMatrix();
+	worldTransform_.UpdateMatrix();
 
 		ImGui::Begin("debug");
 	    ImGui::SliderFloat3("position", &worldTransform_.translation_.x, -1000.0f, 1000.0f);
@@ -47,4 +49,13 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection, textureHandle_); }
+
+void Player::Rotate() { const float kRotateSpeed = 0.2f;
+	if (input_->PushKey(DIK_A)) {
+		worldTransform_.rotation_.y -= kRotateSpeed;
+	} else if (input_->PushKey(DIK_D)) {
+		worldTransform_.rotation_.y += kRotateSpeed;
+
+	}
+}
 
