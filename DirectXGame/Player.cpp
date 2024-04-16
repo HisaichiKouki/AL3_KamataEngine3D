@@ -1,6 +1,5 @@
 #include "Player.h"
 
-
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	assert(model);
 	model_ = model;
@@ -37,25 +36,42 @@ void Player::Update() {
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
+	Attack();
+	if (bullet_) {
+		bullet_->Update();
+	}
+	// worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-	//worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-
-		//worldTransform_.TransferMatrix();
+	// worldTransform_.TransferMatrix();
 	worldTransform_.UpdateMatrix();
 
-		ImGui::Begin("debug");
-	    ImGui::SliderFloat3("position", &worldTransform_.translation_.x, -1000.0f, 1000.0f);
-	    ImGui::End();
+	ImGui::Begin("debug");
+	ImGui::SliderFloat3("position", &worldTransform_.translation_.x, -1000.0f, 1000.0f);
+	ImGui::End();
 }
 
-void Player::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection, textureHandle_); }
+void Player::Draw(ViewProjection& viewProjection) {
+	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	if (bullet_) {
+		bullet_->Draw(viewProjection);
+	}
+}
 
-void Player::Rotate() { const float kRotateSpeed = 0.2f;
+void Player::Rotate() {
+	const float kRotateSpeed = 0.2f;
 	if (input_->PushKey(DIK_A)) {
 		worldTransform_.rotation_.y -= kRotateSpeed;
 	} else if (input_->PushKey(DIK_D)) {
 		worldTransform_.rotation_.y += kRotateSpeed;
-
 	}
 }
 
+void Player::Attack() {
+	if (input_->TriggerKey(DIK_SPACE)) {
+		PlayerBullet* newBullet = new PlayerBullet();
+
+		newBullet->Initialize(model_, this->worldTransform_.translation_);
+
+		bullet_ = newBullet;
+	}
+}
