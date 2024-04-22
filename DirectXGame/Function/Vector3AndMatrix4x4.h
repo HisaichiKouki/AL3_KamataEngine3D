@@ -49,3 +49,8 @@ Matrix4x4 MakeRotateXYZMatrix(const Vector3& rotate);
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 Vector3 TransformNomal(const Vector3& v, const Matrix4x4& m);
+
+//
+//const Vector3 operator+(const Vector3& v1, const Vector3& v2 ) {
+//	return Vector3{v1.x + v2.x,v1.y + v2.y,v1.z + v2.z };
+//}
