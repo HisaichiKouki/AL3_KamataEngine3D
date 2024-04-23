@@ -18,6 +18,8 @@ public:
 	void SwitchPhase();
 	void ApproachMove();
 	void LeaveMove();
+
+	
 private:
 	WorldTransform worldTransform_;
 	Model* model_=nullptr;
@@ -30,6 +32,9 @@ private:
 
 	Vector3 approachVelocity_{ 0,0,-kMoveSpeed };
 	Vector3 leaveVelocity_{ -kMoveSpeed*0.7f,kMoveSpeed * 0.7f,0 };
+
+	//void (Enemy::* pFunc)();
+	static void(Enemy::* spFuncTable[])();
 
 
 

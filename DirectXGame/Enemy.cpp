@@ -5,14 +5,18 @@ void Enemy::Initialize(Model* model, const Vector3& position) {
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
 	textureHandle_ = TextureManager::Load("sample.png");
-
+	//pFunc = &Enemy::ApproachMove;
 }
 
 void Enemy::Update() {
+	
+	(this->*spFuncTable[static_cast<size_t>(phase_)])();
+	
 	//worldTransform_.translation_ = Add(worldTransform_.translation_,velocity_);
 	worldTransform_.UpdateMatrix();
 	//worldTransform_.translation_ += velocity_;
-	SwitchPhase();
+	//SwitchPhase();
+	//(this->*pFunc)();
 }
 
 void Enemy::Draw(const ViewProjection& viewprojection) {
@@ -22,7 +26,8 @@ void Enemy::Draw(const ViewProjection& viewprojection) {
 
 void Enemy::SwitchPhase()
 {
-	switch (phase_)
+	//pFunc = &Enemy::ApproachMove;
+	/*switch (phase_)
 	{
 	case Phase::Approach:
 		ApproachMove();
@@ -32,7 +37,7 @@ void Enemy::SwitchPhase()
 		break;
 	default:
 		break;
-	}
+	}*/
 }
 
 void Enemy::ApproachMove()
@@ -48,3 +53,8 @@ void Enemy::LeaveMove()
 {
 	worldTransform_.translation_ += leaveVelocity_;
 }
+
+void(Enemy::* Enemy::spFuncTable[])() = {
+	&Enemy::ApproachMove,
+	&Enemy::LeaveMove
+};
