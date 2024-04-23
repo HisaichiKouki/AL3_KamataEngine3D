@@ -6,6 +6,11 @@ Enemy::~Enemy()
 	{
 		delete bullet;
 	}
+
+	for (auto& timedCall:timedCalls_)
+	{
+		delete timedCall;
+	}
 }
 
 void Enemy::Initialize(Model* model, const Vector3& position) {
@@ -20,7 +25,7 @@ void Enemy::Initialize(Model* model, const Vector3& position) {
 
 void Enemy::Update() {
 
-	
+
 	bullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead())
 		{
@@ -31,14 +36,14 @@ void Enemy::Update() {
 		});
 
 	(this->*spFuncTable[static_cast<size_t>(phase_)])();
-	
+
 	//worldTransform_.translation_ = Add(worldTransform_.translation_,velocity_);
 	worldTransform_.UpdateMatrix();
 	//worldTransform_.translation_ += velocity_;
 	//SwitchPhase();
 	//(this->*pFunc)();
 
-	for (EnemyBullet* bullet:bullets_)
+	for (EnemyBullet* bullet : bullets_)
 	{
 		bullet->Update();
 	}
@@ -72,18 +77,30 @@ void Enemy::SwitchPhase()
 
 void Enemy::ApproachInitialize()
 {
-	isFireCoolTime = kFireCoolTime;
+	FireReset();
 }
 
 void Enemy::ApproachMove()
 {
-	if (--isFireCoolTime <= 0)
+
+	timedCalls_.remove_if([](TimedCall* timedCall) {
+		if (timedCall->IsFinished()) {
+			delete timedCall;
+			return true;
+		}
+		return false;
+		});
+	for (auto& timedCall : timedCalls_)
+	{
+		timedCall->Update();
+	}
+	/*if (--isFireCoolTime <= 0)
 	{
 		Fire();
 		isFireCoolTime = kFireCoolTime;
-	}
+	}*/
 	worldTransform_.translation_ += approachVelocity_;
-	if (worldTransform_.translation_.z<0.0f)
+	if (worldTransform_.translation_.z < 0.0f)
 	{
 		phase_ = Phase::Leave;
 	}
@@ -97,9 +114,15 @@ void Enemy::LeaveMove()
 void Enemy::Fire()
 {
 	EnemyBullet* newBullet = new EnemyBullet();
-	
+
 	newBullet->Initialize(model_, worldTransform_.translation_);
 	bullets_.push_back(newBullet);
+}
+
+void Enemy::FireReset()
+{
+	Fire();
+	timedCalls_.push_back(new TimedCall(std::bind(&Enemy::FireReset, this), kFireCoolTime));
 }
 
 
