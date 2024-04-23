@@ -65,6 +65,7 @@ void Player::Update() {
 
 	ImGui::Begin("debug");
 	ImGui::SliderFloat3("position", &worldTransform_.translation_.x, -1000.0f, 1000.0f);
+	ImGui::DragFloat3("rotate", &worldTransform_.rotation_.x, 0.01f);
 	ImGui::End();
 }
 
