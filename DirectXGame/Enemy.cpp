@@ -11,7 +11,8 @@ void Enemy::Initialize(Model* model, const Vector3& position) {
 void Enemy::Update() {
 	//worldTransform_.translation_ = Add(worldTransform_.translation_,velocity_);
 	worldTransform_.UpdateMatrix();
-	worldTransform_.translation_ += velocity_;
+	//worldTransform_.translation_ += velocity_;
+	SwitchPhase();
 }
 
 void Enemy::Draw(const ViewProjection& viewprojection) {
@@ -24,11 +25,26 @@ void Enemy::SwitchPhase()
 	switch (phase_)
 	{
 	case Phase::Approach:
-		worldTransform_.translation_ += velocity_;
+		ApproachMove();
 		break;
 	case Phase::Leave:
+		LeaveMove();
 		break;
 	default:
 		break;
 	}
+}
+
+void Enemy::ApproachMove()
+{
+	worldTransform_.translation_ += approachVelocity_;
+	if (worldTransform_.translation_.z<0.0f)
+	{
+		phase_ = Phase::Leave;
+	}
+}
+
+void Enemy::LeaveMove()
+{
+	worldTransform_.translation_ += leaveVelocity_;
 }

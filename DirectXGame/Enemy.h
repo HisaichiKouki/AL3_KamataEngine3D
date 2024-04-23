@@ -16,6 +16,8 @@ public:
 	void Update();
 	void Draw(const ViewProjection& viewprojection);
 	void SwitchPhase();
+	void ApproachMove();
+	void LeaveMove();
 private:
 	WorldTransform worldTransform_;
 	Model* model_=nullptr;
@@ -25,6 +27,11 @@ private:
 	Vector3 velocity_{ 0,0,-kMoveSpeed };
 
 	Phase phase_ = Phase::Approach;
+
+	Vector3 approachVelocity_{ 0,0,-kMoveSpeed };
+	Vector3 leaveVelocity_{ -kMoveSpeed*0.7f,kMoveSpeed * 0.7f,0 };
+
+
 
 
 };
