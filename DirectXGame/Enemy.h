@@ -2,6 +2,9 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "TextureManager.h"
+#include <stdlib.h>
+
+#include "EnemyBullet.h"
 
 enum class Phase
 {
@@ -11,14 +14,16 @@ enum class Phase
 class Enemy {
 
 public:
-
+	~Enemy();
 	void Initialize(Model*model,const Vector3& position);
 	void Update();
 	void Draw(const ViewProjection& viewprojection);
 	void SwitchPhase();
+	void ApproachInitialize();
 	void ApproachMove();
 	void LeaveMove();
 
+	void Fire();
 	
 private:
 	WorldTransform worldTransform_;
@@ -37,6 +42,12 @@ private:
 	static void(Enemy::* spFuncTable[])();
 
 
+	std::list<EnemyBullet*>bullets_;
+
+	int32_t isFireCoolTime = 0;
+
+public:
+	static const int32_t kFireCoolTime = 60 * 1;
 
 
 };

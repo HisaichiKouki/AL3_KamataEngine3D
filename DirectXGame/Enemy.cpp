@@ -1,15 +1,35 @@
 #include "Enemy.h"
 
+Enemy::~Enemy()
+{
+	for (EnemyBullet* bullet : bullets_)
+	{
+		delete bullet;
+	}
+}
+
 void Enemy::Initialize(Model* model, const Vector3& position) {
 	model_ = model;
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
 	textureHandle_ = TextureManager::Load("sample.png");
 	//pFunc = &Enemy::ApproachMove;
+	//Fire();
+	ApproachInitialize();
 }
 
 void Enemy::Update() {
+
 	
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead())
+		{
+			delete bullet;
+			return true;
+		}
+		return false;
+		});
+
 	(this->*spFuncTable[static_cast<size_t>(phase_)])();
 	
 	//worldTransform_.translation_ = Add(worldTransform_.translation_,velocity_);
@@ -17,11 +37,21 @@ void Enemy::Update() {
 	//worldTransform_.translation_ += velocity_;
 	//SwitchPhase();
 	//(this->*pFunc)();
+
+	for (EnemyBullet* bullet:bullets_)
+	{
+		bullet->Update();
+	}
+
 }
 
 void Enemy::Draw(const ViewProjection& viewprojection) {
 
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);
+	for (EnemyBullet* bullet : bullets_)
+	{
+		bullet->Draw(viewprojection);
+	}
 }
 
 void Enemy::SwitchPhase()
@@ -40,8 +70,18 @@ void Enemy::SwitchPhase()
 	}*/
 }
 
+void Enemy::ApproachInitialize()
+{
+	isFireCoolTime = kFireCoolTime;
+}
+
 void Enemy::ApproachMove()
 {
+	if (--isFireCoolTime <= 0)
+	{
+		Fire();
+		isFireCoolTime = kFireCoolTime;
+	}
 	worldTransform_.translation_ += approachVelocity_;
 	if (worldTransform_.translation_.z<0.0f)
 	{
@@ -53,6 +93,16 @@ void Enemy::LeaveMove()
 {
 	worldTransform_.translation_ += leaveVelocity_;
 }
+
+void Enemy::Fire()
+{
+	EnemyBullet* newBullet = new EnemyBullet();
+	
+	newBullet->Initialize(model_, worldTransform_.translation_);
+	bullets_.push_back(newBullet);
+}
+
+
 
 void(Enemy::* Enemy::spFuncTable[])() = {
 	&Enemy::ApproachMove,

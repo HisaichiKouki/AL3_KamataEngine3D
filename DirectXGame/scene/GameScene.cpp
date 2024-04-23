@@ -29,7 +29,7 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 	enemy_ = new Enemy();
-	enemy_->Initialize(model_, { 0,1,50.0f });
+	enemy_->Initialize(model_, { 10,1,50.0f });
 }
 
 void GameScene::Update() {
