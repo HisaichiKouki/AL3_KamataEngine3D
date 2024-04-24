@@ -7,6 +7,8 @@
 #include "EnemyBullet.h"
 #include "TimedCall.h"
 
+class Player;
+
 enum class Phase
 {
 	Approach,
@@ -27,12 +29,16 @@ public:
 	void Fire();
 	void FireReset();
 
+	void SetPlayer(Player* player) { player_ = player; }
+	Vector3 GetWorldPosition();
+
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
 	uint32_t textureHandle_;
 
-	float kMoveSpeed = 0.2f;
+	const float kMoveSpeed = 0.1f;
+	const float kBulletSpeed = 0.4f;
 	Vector3 velocity_{ 0,0,-kMoveSpeed };
 
 	Phase phase_ = Phase::Approach;
@@ -49,10 +55,10 @@ private:
 
 	std::list<TimedCall*>timedCalls_;
 
-
+	Player* player_ = nullptr;
 
 public:
-	static const int32_t kFireCoolTime = 60 * 1;
+	static const int32_t kFireCoolTime = 30 * 1;
 
 
 };

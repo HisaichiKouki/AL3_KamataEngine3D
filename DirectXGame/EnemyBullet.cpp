@@ -1,6 +1,6 @@
 #include "EnemyBullet.h"
 
-void EnemyBullet::Initialize(Model* model, const Vector3& position)
+void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity)
 {
 	assert(model);
 	model_ = model;
@@ -8,7 +8,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position)
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
-	
+	velocity_ = velocity;
 	//velocity_ = velocity;
 }
 

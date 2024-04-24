@@ -9,7 +9,7 @@
 class EnemyBullet
 {
 public:
-	void Initialize(Model*model,const Vector3& position);
+	void Initialize(Model*model,const Vector3& position,const Vector3& velocity);
 	void Update();
 	void Draw(const ViewProjection& viewprojection);
 	bool IsDead() const { return isDead_; }

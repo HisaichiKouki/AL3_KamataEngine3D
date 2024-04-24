@@ -1,5 +1,5 @@
 #include "Enemy.h"
-
+#include "Player.h"
 Enemy::~Enemy()
 {
 	for (EnemyBullet* bullet : bullets_)
@@ -114,15 +114,31 @@ void Enemy::LeaveMove()
 void Enemy::Fire()
 {
 	EnemyBullet* newBullet = new EnemyBullet();
-
-	newBullet->Initialize(model_, worldTransform_.translation_);
+	Vector3 pWorldPos = player_->GetWorldPosition();
+	Vector3 eWorldPos = this->GetWorldPosition();
+	Vector3 subVector = Subtract(pWorldPos, eWorldPos);
+	Vector3 normalVec = Normalize(subVector);
+	normalVec.x *= kBulletSpeed;
+	normalVec.y *= kBulletSpeed;
+	normalVec.z *= kBulletSpeed;
+	newBullet->Initialize(model_, worldTransform_.translation_, normalVec);
 	bullets_.push_back(newBullet);
+	
 }
 
 void Enemy::FireReset()
 {
 	Fire();
 	timedCalls_.push_back(new TimedCall(std::bind(&Enemy::FireReset, this), kFireCoolTime));
+}
+
+Vector3 Enemy::GetWorldPosition()
+{
+	Vector3 worldPos;
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+	return worldPos;
 }
 
 

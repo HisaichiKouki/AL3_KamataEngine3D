@@ -17,6 +17,7 @@ public:
 	void Draw(ViewProjection& viewProjection);
 	void Rotate();
 	void Attack();
+	Vector3 GetWorldPosition();
 
 private:
 	WorldTransform worldTransform_;
@@ -24,6 +25,7 @@ private:
 	uint32_t textureHandle_ = 0u;
 	Input* input_ = nullptr;
 	PlayerBullet* bullet_ = nullptr;
+
 
 	std::list<PlayerBullet*> bullets_;
 };

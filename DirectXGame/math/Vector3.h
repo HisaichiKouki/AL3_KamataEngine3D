@@ -21,5 +21,25 @@ struct Vector3 final {
 		this->z += v1.z;
 		return *this;
 	}
-
+	Vector3& operator-=(const Vector3& v1)
+	{
+		this->x -= v1.x;
+		this->y -= v1.y;
+		this->z -= v1.z;
+		return *this;
+	}
+	Vector3& operator*=(const Vector3& v1)
+	{
+		this->x *= v1.x;
+		this->y *= v1.y;
+		this->z *= v1.z;
+		return *this;
+	}
+	Vector3& operator/=(const Vector3& v1)
+	{
+		this->x /= v1.x;
+		this->y /= v1.y;
+		this->z /= v1.z;
+		return *this;
+	}
 };
