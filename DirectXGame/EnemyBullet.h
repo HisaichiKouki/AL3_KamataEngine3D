@@ -6,6 +6,8 @@
 #include <ViewProjection.h>
 #include <TextureManager.h>
 #include <assert.h>
+
+#include <stdlib.h>
 class EnemyBullet
 {
 public:

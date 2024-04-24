@@ -10,10 +10,18 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	worldTransform_.translation_ = position;
 	velocity_ = velocity;
 	//velocity_ = velocity;
+	worldTransform_.scale_.x = 0.5f;
+	worldTransform_.scale_.y = 0.5f;
+	worldTransform_.scale_.z = 3.0f;
 }
 
 void EnemyBullet::Update()
 {
+	float vecLength = sqrtf(velocity_.x * velocity_.x + velocity_.z * velocity_.z);
+	worldTransform_.rotation_.y = std::atan2( velocity_.x, velocity_.z);
+
+	worldTransform_.rotation_.x = std::atan2(-velocity_.y, vecLength);
+
 	if (--deathTimer_<0)
 	{
 		isDead_ = true;
