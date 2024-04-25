@@ -12,19 +12,21 @@
 #include "Easing.h"
 #include "imgui.h"
 
+#include "Collider.h"
+
 class Player;
-class EnemyBullet
+class EnemyBullet:public Collider
 {
 public:
 	void Initialize(Model*model,const Vector3& position,const Vector3& velocity);
 	void Update();
 	void Draw(const ViewProjection& viewprojection);
 	bool IsDead() const { return isDead_; }
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition()override;
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetHomingPower(float power) { homingPower = power; }
 
-	void OnCollision();
+	void OnCollision() override;
 
 
 private:

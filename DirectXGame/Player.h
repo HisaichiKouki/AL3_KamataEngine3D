@@ -9,7 +9,10 @@
 
 #include <stdlib.h>
 #include <list>
-class Player {
+
+#include "Collider.h"
+class Player :public Collider
+{
 public:
 	~Player();
 	void Initialize(Model*model,uint32_t textureHandle);
@@ -17,9 +20,9 @@ public:
 	void Draw(ViewProjection& viewProjection);
 	void Rotate();
 	void Attack();
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() override;
 
-	void OnCollision();
+	void OnCollision() override;
 
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 

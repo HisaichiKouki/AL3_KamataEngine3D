@@ -4,15 +4,19 @@
 #include "TextureManager.h"
 #include "WorldTransform.h"
 #include <assert.h>
-class PlayerBullet {
+
+#include "Collider.h"
+
+class PlayerBullet:public Collider
+{
 public:
 	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
 	void Update();
 	void Draw(const ViewProjection& viewprojection);
 
-	void OnCollision();
+	void OnCollision()override;
 
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() override;
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;

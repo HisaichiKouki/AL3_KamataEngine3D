@@ -7,6 +7,7 @@
 #include "EnemyBullet.h"
 #include "TimedCall.h"
 
+#include "Collider.h"
 class Player;
 
 enum class Phase
@@ -14,7 +15,8 @@ enum class Phase
 	Approach,
 	Leave,
 };
-class Enemy {
+class Enemy: public Collider
+{
 
 public:
 	~Enemy();
@@ -30,9 +32,9 @@ public:
 	void FireReset();
 
 	void SetPlayer(Player* player) { player_ = player; }
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() override;
 
-	void OnCollision();
+	void OnCollision() override;
 	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 
