@@ -8,6 +8,11 @@
 #include <assert.h>
 
 #include <stdlib.h>
+
+#include "Easing.h"
+#include "imgui.h"
+
+class Player;
 class EnemyBullet
 {
 public:
@@ -15,7 +20,8 @@ public:
 	void Update();
 	void Draw(const ViewProjection& viewprojection);
 	bool IsDead() const { return isDead_; }
-
+	void SetPlayer(Player* player) { player_ = player; }
+	void SetHomingPower(float power) { homingPower = power; }
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -30,7 +36,8 @@ private:
 
 
 
-
+	Player* player_ = nullptr;
+	float homingPower = 0.01f;
 
 
 };

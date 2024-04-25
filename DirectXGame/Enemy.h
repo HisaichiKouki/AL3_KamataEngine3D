@@ -37,8 +37,9 @@ private:
 	Model* model_ = nullptr;
 	uint32_t textureHandle_;
 
-	const float kMoveSpeed = 0.1f;
+	const float kMoveSpeed = 0.01f;
 	const float kBulletSpeed = 0.4f;
+	float homingPower = 0.001f;
 	Vector3 velocity_{ 0,0,-kMoveSpeed };
 
 	Phase phase_ = Phase::Approach;

@@ -48,6 +48,12 @@ void Enemy::Update() {
 		bullet->Update();
 	}
 
+#ifdef _DEBUG
+	ImGui::SliderFloat("homingPower", &homingPower, 0.0f,0.5f);
+
+
+#endif // _DEBUG
+
 }
 
 void Enemy::Draw(const ViewProjection& viewprojection) {
@@ -121,9 +127,10 @@ void Enemy::Fire()
 	normalVec.x *= kBulletSpeed;
 	normalVec.y *= kBulletSpeed;
 	normalVec.z *= kBulletSpeed;
+	newBullet->SetPlayer(player_);
 	newBullet->Initialize(model_, worldTransform_.translation_, normalVec);
 	bullets_.push_back(newBullet);
-	
+	newBullet->SetHomingPower(homingPower);
 }
 
 void Enemy::FireReset()
