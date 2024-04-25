@@ -40,6 +40,8 @@ void GameScene::Update() {
 	{
 		enemy_->Update();
 	}
+
+	CheckAllCollisions();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_T)) {
 		isDebugCameraActive = true;
@@ -103,3 +105,68 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+
+void GameScene::CheckAllCollisions()
+{
+	Vector3 posA, posB;
+
+	const std::list<PlayerBullet*>& playerBullets_ = player_->GetBullets();
+	const std::list<EnemyBullet*>& enemyBullets_ = enemy_->GetBullets();
+
+	posA = player_->GetWorldPosition();
+
+	
+#pragma region playerToEnemyBullet
+
+	for (auto* bullet : enemyBullets_)
+	{
+		posB = bullet->GetWorldPosition();
+
+		if (Length(posA, posB) <= 16.0f)
+		{
+			player_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region PlayerBulletToEnemy
+
+	posA = enemy_->GetWorldPosition();
+	for (auto* bullet : playerBullets_)
+	{
+		posB = bullet->GetWorldPosition();
+
+		if (Length(posA, posB) <= 10.0f)
+		{
+			enemy_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+
+#pragma region playerBulletToEnemyBullet
+
+	for (auto* playerBullet : playerBullets_)
+	{
+		posA = playerBullet->GetWorldPosition();
+
+		for (auto* enemyBullet : enemyBullets_)
+		{
+			posB = enemyBullet->GetWorldPosition();
+
+
+			if (Length(posA, posB) <= 10.0f)
+			{
+				playerBullet->OnCollision();
+				enemyBullet->OnCollision();
+			}
+		}
+
+		
+	}
+#pragma endregion
+
+}
+

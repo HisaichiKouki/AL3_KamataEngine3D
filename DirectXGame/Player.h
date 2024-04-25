@@ -19,6 +19,10 @@ public:
 	void Attack();
 	Vector3 GetWorldPosition();
 
+	void OnCollision();
+
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
+
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -28,4 +32,6 @@ private:
 
 
 	std::list<PlayerBullet*> bullets_;
+
+
 };

@@ -26,6 +26,15 @@ float Length(const Vector3& v) {
 	return sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
+float Length(const Vector3& from, const Vector3& to)
+{
+	
+	return float(
+		(to.x - from.x) * (to.x - from.x) +
+		(to.y - from.y) * (to.y - from.y) +
+		(to.z - from.z) * (to.z - from.z));
+}
+
 Vector3 Normalize(const Vector3& v) {
 	float length = Length(v);
 	return Vector3(v.x / length, v.y / length, v.z / length);

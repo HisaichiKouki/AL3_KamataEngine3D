@@ -20,8 +20,13 @@ public:
 	void Update();
 	void Draw(const ViewProjection& viewprojection);
 	bool IsDead() const { return isDead_; }
+	Vector3 GetWorldPosition();
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetHomingPower(float power) { homingPower = power; }
+
+	void OnCollision();
+
+
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -38,6 +43,7 @@ private:
 
 	Player* player_ = nullptr;
 	float homingPower = 0.01f;
+
 
 
 };

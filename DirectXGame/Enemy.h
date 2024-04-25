@@ -32,6 +32,10 @@ public:
 	void SetPlayer(Player* player) { player_ = player; }
 	Vector3 GetWorldPosition();
 
+	void OnCollision();
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+
+
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
