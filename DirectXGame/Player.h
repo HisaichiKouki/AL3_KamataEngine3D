@@ -15,7 +15,7 @@ class Player :public Collider
 {
 public:
 	~Player();
-	void Initialize(Model*model,uint32_t textureHandle);
+	void Initialize(Model*model,uint32_t textureHandle, const Vector3& pos);
 	void Update();
 	void Draw(ViewProjection& viewProjection);
 	void Rotate();
@@ -25,7 +25,8 @@ public:
 	void OnCollision() override;
 
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
-
+	const WorldTransform& GetWorldTransform() { return worldTransform_; }
+	void SetParent(const WorldTransform* parent);
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;

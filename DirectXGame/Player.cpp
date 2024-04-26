@@ -6,12 +6,14 @@ Player::~Player() {
 	}
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle) {
+void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos) {
 	assert(model);
+
 	model_ = model;
 	textureHandle_ = textureHandle;
 
 	worldTransform_.Initialize();
+	worldTransform_.translation_ = pos;
 	input_ = Input::GetInstance();
 }
 
@@ -117,4 +119,9 @@ Vector3 Player::GetWorldPosition()
 
 void Player::OnCollision()
 {
+}
+
+void Player::SetParent(const WorldTransform* parent)
+{
+	worldTransform_.parent_ = parent;
 }
