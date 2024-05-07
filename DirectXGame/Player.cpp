@@ -101,7 +101,7 @@ void Player::Attack() {
 		}*/
 		PlayerBullet* newBullet = new PlayerBullet();
 
-		newBullet->Initialize(model_, this->worldTransform_.translation_, velocity);
+		newBullet->Initialize(model_, this->GetWorldPosition(), velocity);
 		bullets_.push_back(newBullet);
 
 		//bullet_ = newBullet;
