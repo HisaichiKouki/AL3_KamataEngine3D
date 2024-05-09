@@ -16,6 +16,8 @@
 
 #include "RailCamera.h"
 
+#include "CatmullRomSpline.h"
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -75,6 +77,7 @@ private: // メンバ変数
 	Model* modelSkydome_ = nullptr;
 	SkyDome* skydome_ = nullptr;
 	
+	CatmullRomSpline* catmullromSpline = nullptr;
 
 private:
 	

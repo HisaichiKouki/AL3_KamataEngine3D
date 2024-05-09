@@ -11,6 +11,7 @@ GameScene::~GameScene() {
 	delete enemy_;
 	delete skydome_;
 	delete railCamera_;
+	delete catmullromSpline;
 }
 
 void GameScene::Initialize() {
@@ -46,6 +47,7 @@ void GameScene::Initialize() {
 
 	player_->SetParent(&railCamera_->GetWorldTransform());
 
+	catmullromSpline = new CatmullRomSpline(debugCamera_->GetViewProjection());
 }
 
 void GameScene::Update() {
@@ -113,6 +115,8 @@ void GameScene::Draw() {
 	{
 		enemy_->Draw(viewProjection_);
 	}
+
+	catmullromSpline->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

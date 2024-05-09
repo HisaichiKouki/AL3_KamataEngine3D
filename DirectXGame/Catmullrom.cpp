@@ -16,7 +16,7 @@ Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vect
 
 Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t)
 {
-	assert(points.size() <= 4 && "制御点は4点以上です");
+	assert(points.size() >= 4 && "制御点は4点以上です");
 
 	//区画数は制御点の-1
 	size_t division = points.size() - 1;
