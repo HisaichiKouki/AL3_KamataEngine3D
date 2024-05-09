@@ -25,7 +25,9 @@ void Enemy::Initialize(Model* model, const Vector3& position) {
 	worldTransform_.translation_ = position;
 	textureHandle_ = TextureManager::Load("sample.png");
 	//pFunc = &Enemy::ApproachMove;
-	//Fire();
+	//Fire();	
+	isDead_ = false;
+
 	ApproachInitialize();
 }
 
@@ -145,7 +147,7 @@ Vector3 Enemy::GetWorldPosition()
 
 void Enemy::OnCollision()
 {
-
+	isDead_ = true;
 }
 
 

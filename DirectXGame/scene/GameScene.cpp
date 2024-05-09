@@ -50,6 +50,11 @@ void GameScene::Initialize() {
 	enemy->SetPlayer(player_);
 	enemy->Initialize(model_, { 10,1,50.0f });
 	enemys_.push_back(enemy);
+	Enemy* enemy2 = new Enemy();
+	enemy2->SetGameScene(this);
+	enemy2->SetPlayer(player_);
+	enemy2->Initialize(model_, { -10,1,50.0f });
+	enemys_.push_back(enemy2);
 
 	skydome_ = new SkyDome();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -65,7 +70,13 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-
+	enemys_.remove_if([](Enemy* enemy) {
+		if (enemy->IsDead()) {
+			delete enemy;
+			return true;
+		}
+		return false;
+		});
 	enemyBullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead())
 		{
