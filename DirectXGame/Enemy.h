@@ -9,7 +9,7 @@
 
 #include "Collider.h"
 class Player;
-
+class GameScene;
 enum class Phase
 {
 	Approach,
@@ -35,8 +35,8 @@ public:
 	Vector3 GetWorldPosition() override;
 
 	void OnCollision() override;
-	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private:
 	WorldTransform worldTransform_;
@@ -56,13 +56,12 @@ private:
 	//void (Enemy::* pFunc)();
 	static void(Enemy::* spFuncTable[])();
 
-
-	std::list<EnemyBullet*>bullets_;
-
-
 	std::list<TimedCall*>timedCalls_;
+	//std::list<EnemyBullet*>bullets_;
 
 	Player* player_ = nullptr;
+
+	GameScene* gameScene_ = nullptr;
 
 public:
 	static const int32_t kFireCoolTime = 30 * 1;

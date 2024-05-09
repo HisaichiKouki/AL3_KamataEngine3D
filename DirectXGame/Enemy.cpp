@@ -1,16 +1,22 @@
 #include "Enemy.h"
 #include "Player.h"
+#include "GameScene.h"
 Enemy::~Enemy()
 {
-	for (EnemyBullet* bullet : bullets_)
-	{
-		delete bullet;
-	}
 
-	for (auto& timedCall:timedCalls_)
+	//for (int i = 0; i < timedCalls_.size(); i++)
+	//{
+	//	delete timedCalls_.front();
+	//	//delete timedCalls_;
+	//}
+	
+	for (TimedCall* timedCall : timedCalls_)
 	{
+		
 		delete timedCall;
 	}
+
+	
 }
 
 void Enemy::Initialize(Model* model, const Vector3& position) {
@@ -26,14 +32,7 @@ void Enemy::Initialize(Model* model, const Vector3& position) {
 void Enemy::Update() {
 
 
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->IsDead())
-		{
-			delete bullet;
-			return true;
-		}
-		return false;
-		});
+
 
 	(this->*spFuncTable[static_cast<size_t>(phase_)])();
 
@@ -43,13 +42,10 @@ void Enemy::Update() {
 	//SwitchPhase();
 	//(this->*pFunc)();
 
-	for (EnemyBullet* bullet : bullets_)
-	{
-		bullet->Update();
-	}
+
 
 #ifdef _DEBUG
-	ImGui::SliderFloat("homingPower", &homingPower, 0.0f,0.5f);
+	ImGui::SliderFloat("homingPower", &homingPower, 0.0f, 0.5f);
 
 
 #endif // _DEBUG
@@ -59,10 +55,7 @@ void Enemy::Update() {
 void Enemy::Draw(const ViewProjection& viewprojection) {
 
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);
-	for (EnemyBullet* bullet : bullets_)
-	{
-		bullet->Draw(viewprojection);
-	}
+
 }
 
 void Enemy::SwitchPhase()
@@ -129,8 +122,10 @@ void Enemy::Fire()
 	normalVec.z *= kBulletSpeed;
 	newBullet->SetPlayer(player_);
 	newBullet->Initialize(model_, worldTransform_.translation_, normalVec);
-	bullets_.push_back(newBullet);
+	//bullets_.push_back(newBullet);
 	newBullet->SetHomingPower(homingPower);
+	gameScene_->AddEnemyBullet(newBullet);
+
 }
 
 void Enemy::FireReset()

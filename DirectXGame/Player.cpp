@@ -46,8 +46,8 @@ void Player::Update() {
 	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
 
-	const float kMoveLimitX = 34;
-	const float kMoveLimitY = 18;
+	const float kMoveLimitX = 12;
+	const float kMoveLimitY = 6;
 	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);

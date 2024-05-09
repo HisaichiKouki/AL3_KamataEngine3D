@@ -8,10 +8,21 @@ GameScene::~GameScene() {
 	delete model_;
 	delete player_;
 	delete debugCamera_;
-	delete enemy_;
 	delete skydome_;
+	delete enemy_;
 	delete railCamera_;
 	delete catmullromSpline;
+	for (EnemyBullet* bullet : enemyBullets_)
+	{
+		delete bullet;
+	}
+	for (Enemy* enemy : enemys_)
+	{
+		delete enemy;
+	}
+	/*for (auto itr = enemys_.begin(); itr != enemys_.end(); ++itr) {
+		delete* itr;
+	}*/
 }
 
 void GameScene::Initialize() {
@@ -34,8 +45,10 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 	enemy_ = new Enemy();
+	enemy_->SetGameScene(this);
 	enemy_->SetPlayer(player_);
 	enemy_->Initialize(model_, { 10,1,50.0f });
+	enemys_.push_back(enemy_);
 
 	skydome_ = new SkyDome();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -51,16 +64,36 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+
+	enemyBullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead())
+		{
+			delete bullet;
+			return true;
+		}
+		return false;
+		});
+
+
 	railCamera_->Update();
 
 	skydome_->Update();
 	player_->Update();
 
-	if (enemy_)
+	/*if (enemy_)
 	{
 		enemy_->Update();
-	}
+	}*/
+	for (auto* enemy : enemys_)
+	{
 
+		enemy->Update();
+
+	}
+	for (EnemyBullet* bullet : enemyBullets_)
+	{
+		bullet->Update();
+	}
 	CheckAllCollisions();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_T)) {
@@ -111,11 +144,18 @@ void GameScene::Draw() {
 	
 	skydome_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
-	if (enemy_)
+	//if (enemy_)
+	//{
+	//	enemy_->Draw(viewProjection_);
+	//}
+	for (auto* enemy : enemys_)
 	{
-		enemy_->Draw(viewProjection_);
+		enemy->Draw(viewProjection_);
 	}
-
+	for (EnemyBullet* bullet : enemyBullets_)
+	{
+		bullet->Draw(viewProjection_);
+	}
 	catmullromSpline->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -140,7 +180,7 @@ void GameScene::CheckAllCollisions()
 	//Vector3 posA, posB;
 
 	const std::list<PlayerBullet*>& playerBullets_ = player_->GetBullets();
-	const std::list<EnemyBullet*>& enemyBullets_ = enemy_->GetBullets();
+	//const std::list<EnemyBullet*>& enemyBullets_ = enemy_->GetBullets();
 
 	//posA = player_->GetWorldPosition();
 
@@ -217,6 +257,11 @@ void GameScene::CheckAllCollisions()
 	}*/
 #pragma endregion
 
+}
+
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet)
+{
+	enemyBullets_.push_back(enemyBullet);
 }
 
 void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB)

@@ -50,6 +50,9 @@ public: // メンバ関数
 	void Draw();
 
 	void CheckAllCollisions();
+	const std::list<EnemyBullet*>& GetBullets() const { return enemyBullets_; }
+
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -72,12 +75,15 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 	RailCamera* railCamera_ = nullptr;
 
+	std::list<Enemy*>enemys_;
 	Enemy* enemy_ = nullptr;
 
 	Model* modelSkydome_ = nullptr;
 	SkyDome* skydome_ = nullptr;
 	
 	CatmullRomSpline* catmullromSpline = nullptr;
+
+	std::list<EnemyBullet*>enemyBullets_;
 
 private:
 	
