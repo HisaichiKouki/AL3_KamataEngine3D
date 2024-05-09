@@ -11,7 +11,6 @@ void CatmullRomSpline::Init()
 	controlPoints_ = {
 		{0,0,0},
 		{10,10,0},
-		{15,15,0},
 		{10,15,0},
 		{20,15,0},
 		{20,0,0},
