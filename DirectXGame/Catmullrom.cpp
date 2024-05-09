@@ -1,52 +1,50 @@
-#include "Catmullrom.h"
+#include "CatmullRom.h"
 
-void Catmullrom::Init(std::vector<Vector3> controlPoints)
+Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& p3, float t)
 {
-	
+	const float s = 0.5f;
+	float t2 = t * t;
+	float t3 = t2 * t;
+
+	Vector3 e3 = p0 * -1.0f + p1 * 3.0f + p2 * -3.0f + p3;
+	Vector3 e2 = p0 * 2.0f + p1 * -5.0f + p2 * 4.0f + p3 * -1.0f;
+	Vector3 e1 = p0 * -1.0f + p2;
+	Vector3 e0 = p1 * 2.0f;
+
+	return  (e3 * t3 + e2 * t2 + e1 * t + e0) * s;
 }
 
-void Catmullrom::Draw(std::vector<Vector3> controlPoints, float t)
+Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t)
 {
-}
+	assert(points.size() <= 4 && "制御点は4点以上です");
 
-Vector3 Catmullrom::CatmullromSprit(std::vector<Vector3> controlPoints, float t)
-{
-	spritNum_ = (int)controlPoints.size();
-	divisionSize_ = 1.0f / (float)spritNum_;
-	if (t<divisionSize_)
-	{
-		return HermiteSprit(controlPoints[0], controlPoints[0], controlPoints[1], controlPoints[2], t);
+	//区画数は制御点の-1
+	size_t division = points.size() - 1;
+	//1区間の長さ
+	float areaWidth = 1.0f / division;
+	//区間内の始点を0.0f,終点を1.0fとしたときの現在位置
+	float t_2 = std::fmod(t, areaWidth) * division;
+	t_2 = std::clamp(t_2, 0.0f, 1.0f);
+
+	size_t index = static_cast<size_t>(t / areaWidth);
+	index = std::clamp(index, static_cast < size_t>(0), static_cast<size_t>(division));
+	size_t index0 = index - 1;
+	size_t index1 = index ;
+	size_t index2 = index + 1;
+	size_t index3 = index + 2;
+
+	if (index == 0) {
+		index0 = index1;
 	}
-	if (t > divisionSize_ * (spritNum_ - 1)) 
+	if (index3>=points.size())
 	{
-		return HermiteSprit(controlPoints[1], controlPoints[2], controlPoints[3], controlPoints[3], t);
+		index3 = index2;
 	}
 
-	for (int i = 0; i < divisionSize_; i++)
-	{
-		if (t)
-		{
+	const Vector3& p0 = points[index0];
+	const Vector3& p1 = points[index1];
+	const Vector3& p2 = points[index2];
+	const Vector3& p3 = points[index3];
 
-		}
-	}
-	return Vector3();
+	return CatmullRomInterpolation(p0, p1, p2, p3, t_2);
 }
-
-Vector3 Catmullrom::HermiteSprit(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
-{
-	Vector3 result{};
-	result = (p0 * -1 + p1 * 3 + p2 * -3 + p3) * t * t * t + (p0 * 2 + p1 * -5 + p2 * 4 + p3 * -1) * t * t + (p0 * -1 + p2) * t + p1 * 2;
-	return result;
-}
-
-
-//Vector3 Catmullrom::CatmullromSprine(std::vector<Vector3> controlPoints, float t)
-//{
-//
-//	int l = controlPoints.size();
-//	float progress = (l - 1) * t;
-//	int i = int(progress);
-//	float weight = progress - i;
-//
-//	return Vector3();
-//}

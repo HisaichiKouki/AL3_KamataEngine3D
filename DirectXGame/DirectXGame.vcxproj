@@ -110,7 +110,8 @@
     <ClCompile Include="3d\WorldTransform.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="Catmullrom.cpp" />
+    <ClCompile Include="CatmullRom.cpp" />
+    <ClCompile Include="CatmullRomSpline.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Easing.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -148,7 +149,8 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="Catmullrom.h" />
+    <ClInclude Include="CatmullRom.h" />
+    <ClInclude Include="CatmullRomSpline.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Easing.h" />
     <ClInclude Include="Enemy.h" />
