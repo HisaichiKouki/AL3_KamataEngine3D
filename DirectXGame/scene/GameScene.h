@@ -11,12 +11,11 @@
 #include "Player.h"
 #include "DebugCamera.h"
 #include "Enemy.h"
-
 #include "SkyDome.h"
-
 #include "RailCamera.h"
-
 #include "CatmullRomSpline.h"
+
+#include <sstream>
 
 /// <summary>
 /// ゲームシーン
@@ -54,6 +53,9 @@ public: // メンバ関数
 
 	void AddEnemyBullet(EnemyBullet* enemyBullet);
 
+	void LoadEnemyPopDate();
+	void UpdateEnemyPopCommands();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -81,10 +83,14 @@ private: // メンバ変数
 	Model* modelSkydome_ = nullptr;
 	SkyDome* skydome_ = nullptr;
 	
-	CatmullRomSpline* catmullromSpline = nullptr;
+	//CatmullRomSpline* catmullromSpline = nullptr;
 
 	std::list<EnemyBullet*>enemyBullets_;
 
+	std::stringstream enemyPopCommands;
+	
+	bool isEnemySpown_ = false;
+	int32_t isEnemySpownWaitTime_;
 private:
 	
 	/// <summary>

@@ -2,6 +2,8 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "AxisIndicator.h"
+
+#include <fstream>
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
@@ -12,7 +14,7 @@ GameScene::~GameScene() {
 	delete skydome_;
 	//delete enemy_;
 	delete railCamera_;
-	delete catmullromSpline;
+	//delete catmullromSpline;
 	for (EnemyBullet* bullet : enemyBullets_)
 	{
 		delete bullet;
@@ -45,7 +47,7 @@ void GameScene::Initialize() {
 	debugCamera_ = new DebugCamera(1280, 720);
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
-	Enemy *enemy = new Enemy();
+	/*Enemy *enemy = new Enemy();
 	enemy->SetGameScene(this);
 	enemy->SetPlayer(player_);
 	enemy->Initialize(model_, { 10,1,50.0f });
@@ -54,7 +56,7 @@ void GameScene::Initialize() {
 	enemy2->SetGameScene(this);
 	enemy2->SetPlayer(player_);
 	enemy2->Initialize(model_, { -10,1,50.0f });
-	enemys_.push_back(enemy2);
+	enemys_.push_back(enemy2);*/
 
 	skydome_ = new SkyDome();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -66,10 +68,13 @@ void GameScene::Initialize() {
 
 	player_->SetParent(&railCamera_->GetWorldTransform());
 
-	catmullromSpline = new CatmullRomSpline(debugCamera_->GetViewProjection());
+	//catmullromSpline = new CatmullRomSpline(debugCamera_->GetViewProjection());
+	LoadEnemyPopDate();
+	isEnemySpownWaitTime_ = 0;
 }
 
 void GameScene::Update() {
+	UpdateEnemyPopCommands();
 	enemys_.remove_if([](Enemy* enemy) {
 		if (enemy->IsDead()) {
 			delete enemy;
@@ -168,7 +173,7 @@ void GameScene::Draw() {
 	{
 		bullet->Draw(viewProjection_);
 	}
-	catmullromSpline->Draw();
+	//catmullromSpline->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -277,6 +282,69 @@ void GameScene::CheckAllCollisions()
 void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet)
 {
 	enemyBullets_.push_back(enemyBullet);
+}
+
+void GameScene::LoadEnemyPopDate()
+{
+	std::ifstream file;
+	file.open("./Resources/Scripts/enemyPop.csv");
+	assert(file.is_open() && "スクリプトファイルが開けませんでした");//
+	enemyPopCommands << file.rdbuf();
+	file.close();
+
+}
+
+void GameScene::UpdateEnemyPopCommands()
+{
+
+	if (isEnemySpown_) {
+		isEnemySpownWaitTime_--;
+		if (isEnemySpownWaitTime_ <= 0) {
+			isEnemySpown_ = false;
+		}
+		return;
+	}
+	std::string line;
+
+	while (getline(enemyPopCommands,line))
+	{
+		std::istringstream line_stream(line);
+		std::string word;
+
+		getline(line_stream, word, ',');
+
+		if (word.find("//")==0)
+		{
+			continue;
+		}
+
+		if (word.find("POP") == 0)
+		{
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			Enemy* spownEnemy = new Enemy;
+			spownEnemy->SetGameScene(this);
+			spownEnemy->SetPlayer(player_);
+			spownEnemy->Initialize(model_, Vector3(x, y, z));
+			enemys_.push_back(spownEnemy);
+
+		}
+		else if (word.find("WAIT") == 0)
+		{
+			getline(line_stream, word, ',');
+			int32_t waitTime = atoi(word.c_str());
+			isEnemySpown_ = true;
+			isEnemySpownWaitTime_ = waitTime;
+
+			break;
+
+		}
+	}
 }
 
 void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB)
