@@ -5,6 +5,7 @@
 class SkyDome
 {
 public:
+	~SkyDome();
 	void Init(Model* model);
 	void Update();
 	void Draw(const ViewProjection& viewProjection);

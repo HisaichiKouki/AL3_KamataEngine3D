@@ -2,6 +2,11 @@
 
 
 
+SkyDome::~SkyDome()
+{
+	
+}
+
 void SkyDome::Init( Model* model)
 {
 	model_ = model;
