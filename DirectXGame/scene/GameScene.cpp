@@ -9,7 +9,7 @@ GameScene::~GameScene() {
 	delete player_;
 	delete debugCamera_;
 	delete skydome_;
-	delete enemy_;
+	//delete enemy_;
 	delete railCamera_;
 	delete catmullromSpline;
 	for (EnemyBullet* bullet : enemyBullets_)
@@ -44,11 +44,11 @@ void GameScene::Initialize() {
 	debugCamera_ = new DebugCamera(1280, 720);
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
-	enemy_ = new Enemy();
-	enemy_->SetGameScene(this);
-	enemy_->SetPlayer(player_);
-	enemy_->Initialize(model_, { 10,1,50.0f });
-	enemys_.push_back(enemy_);
+	Enemy *enemy = new Enemy();
+	enemy->SetGameScene(this);
+	enemy->SetPlayer(player_);
+	enemy->Initialize(model_, { 10,1,50.0f });
+	enemys_.push_back(enemy);
 
 	skydome_ = new SkyDome();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -207,8 +207,11 @@ void GameScene::CheckAllCollisions()
 #pragma region PlayerBulletToEnemy
 	for (auto* bullet : playerBullets_)
 	{
+		for (auto* enemy:enemys_)
+		{
+			CheckCollisionPair(enemy, bullet);
 
-		CheckCollisionPair(enemy_, bullet);
+		}
 
 	}
 	/*posA = enemy_->GetWorldPosition();

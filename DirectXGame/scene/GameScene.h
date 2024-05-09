@@ -76,7 +76,7 @@ private: // メンバ変数
 	RailCamera* railCamera_ = nullptr;
 
 	std::list<Enemy*>enemys_;
-	Enemy* enemy_ = nullptr;
+	//Enemy* enemy_ = nullptr;
 
 	Model* modelSkydome_ = nullptr;
 	SkyDome* skydome_ = nullptr;
