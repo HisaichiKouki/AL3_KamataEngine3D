@@ -5,12 +5,18 @@
 #include "WorldTransform.h"
 #include "Vector3AndMatrix4x4.h"
 #include <ImGuiManager.h>
+#include <WinApp.h>
 #include "PlayerBullet.h"
+#include <ViewProjection.h>	
 
 #include <stdlib.h>
 #include <list>
 
 #include "Collider.h"
+#include <Sprite.h>
+
+class GameScene;
+
 class Player :public Collider
 {
 public:
@@ -20,13 +26,25 @@ public:
 	void Draw(ViewProjection& viewProjection);
 	void Rotate();
 	void Attack();
-	Vector3 GetWorldPosition() override;
+	void DrawUI();
 
+	void WorldToScreen();
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
+	Vector3 GetWorldPosition() override;
+	Vector3 Get3DReticleWorldPosition() ;
+
+	void SetViewProjection(const ViewProjection* viewProjection) {
+		viewProjection_ = viewProjection;
+	}
 	void OnCollision() override;
 
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 	void SetParent(const WorldTransform* parent);
+
+	
+
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -34,7 +52,15 @@ private:
 	Input* input_ = nullptr;
 	PlayerBullet* bullet_ = nullptr;
 
+	WorldTransform worldTransform3DReticle_;
 
+	Sprite* sprite2Dreticle_ = nullptr;
+
+	GameScene* gameScene_ = nullptr;
+	const size_t shotCoolTime_ = 7;
+	size_t isShotCount_;
+
+	const ViewProjection* viewProjection_ = nullptr;
 	std::list<PlayerBullet*> bullets_;
 
 

@@ -67,10 +67,12 @@ void GameScene::Initialize() {
 	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 
 	player_->SetParent(&railCamera_->GetWorldTransform());
-
+	player_->SetViewProjection(&railCamera_->GetViewProjection());
+	//player_->SetGameScene(this);
 	//catmullromSpline = new CatmullRomSpline(debugCamera_->GetViewProjection());
 	LoadEnemyPopDate();
 	isEnemySpownWaitTime_ = 0;
+	TextureManager::Load("./Resources/addTexture/reticle.png");
 }
 
 void GameScene::Update() {
@@ -114,7 +116,7 @@ void GameScene::Update() {
 	CheckAllCollisions();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_T)) {
-		isDebugCameraActive = true;
+		isDebugCameraActive = !isDebugCameraActive;
 	}
 	if (isDebugCameraActive) {
 		debugCamera_->Update();
@@ -185,6 +187,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
+	player_->DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
