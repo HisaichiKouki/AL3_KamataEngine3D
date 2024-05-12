@@ -29,6 +29,7 @@ public:
 	void DrawUI();
 
 	void WorldToScreen();
+	void ScreenToWorld();
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 	Vector3 GetWorldPosition() override;
@@ -59,6 +60,8 @@ private:
 	GameScene* gameScene_ = nullptr;
 	const size_t shotCoolTime_ = 7;
 	size_t isShotCount_;
+
+	
 
 	const ViewProjection* viewProjection_ = nullptr;
 	std::list<PlayerBullet*> bullets_;

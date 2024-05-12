@@ -28,6 +28,8 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 
 void Player::Update() {
 
+	
+
 	bullets_.remove_if([](PlayerBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;
@@ -80,10 +82,11 @@ void Player::Update() {
 	// worldTransform_.TransferMatrix();
 
 	worldTransform_.UpdateMatrix();
+	ScreenToWorld();
 
-	worldTransform3DReticle_.translation_ = Transform(offset, worldTransform_.matWorld_);
+	/*worldTransform3DReticle_.translation_ = Transform(offset, worldTransform_.matWorld_);
 
-	worldTransform3DReticle_.UpdateMatrix();
+	worldTransform3DReticle_.UpdateMatrix();*/
 
 	ImGui::Begin("debug");
 	ImGui::SliderFloat3("position", &worldTransform_.translation_.x, -1000.0f, 1000.0f);
@@ -149,7 +152,7 @@ void Player::Attack() {
 
 void Player::DrawUI()
 {
-	WorldToScreen();
+	//WorldToScreen();
 	sprite2Dreticle_->Draw();
 }
 
@@ -161,6 +164,48 @@ void Player::WorldToScreen()
 		Multiply(viewProjection_->matView, viewProjection_->matProjection), matViewport);
 	positionReticle = Transform(positionReticle, matViewProjectionViewport);
 	sprite2Dreticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
+}
+
+void Player::ScreenToWorld()
+{
+	POINT moucePosition;
+	GetCursorPos(&moucePosition);
+
+	//クライアントエリア座標(スクリーン座標)
+	HWND hwnd = WinApp::GetInstance()->GetHwnd();
+	ScreenToClient(hwnd, &moucePosition);
+
+	sprite2Dreticle_->SetPosition(Vector2(static_cast<float>(moucePosition.x), static_cast<float>(moucePosition.y)));
+	Matrix4x4 matViewport = MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
+	
+	Matrix4x4 matVPV = Multiply(
+		Multiply(viewProjection_->matView, viewProjection_->matProjection), matViewport);
+	Matrix4x4 matInverseVPV = Inverse(matVPV);
+
+	Matrix4x4 matInverseInverseVPV = Multiply(matInverseVPV, matVPV);
+
+	Vector3 posNear = Vector3(static_cast<float>(moucePosition.x), static_cast<float>(moucePosition.y), 0);
+	Vector3 posFar = Vector3(static_cast<float>(moucePosition.x), static_cast<float>(moucePosition.y), 1);
+
+	//スクリーン座標からワールド座標へ
+	posNear = Transform(posNear, matInverseVPV);
+	posFar = Transform(posFar, matInverseVPV);
+
+	Vector3 mouseDirection = Subtract( posNear, posFar);
+	mouseDirection = Normalize(mouseDirection);
+
+	//カメラから照準までの距離
+	const float kDistanceTestObject = 50;
+	worldTransform3DReticle_.translation_ = (posNear * mouseDirection* kDistanceTestObject);
+	worldTransform3DReticle_.UpdateMatrix();
+
+	ImGui::Begin("Player");
+	ImGui::Text("2DReticle:(%f,%f)", sprite2Dreticle_->GetPosition().x, sprite2Dreticle_->GetPosition().y);
+	ImGui::Text("Near:(%+.2f,%+.2f,%.2f)", posNear.x, posNear.y,posNear.z);
+	ImGui::Text("Far:(%+.2f,%+.2f,%.2f)", posFar.x, posFar.y, posFar.z);
+	ImGui::Text("Direction:(%+.2f,%+.2f,%.2f)", mouseDirection.x, mouseDirection.y, mouseDirection.z);
+	ImGui::Text("3DReticle:(%+.2f,%+.2f,%.2f)", worldTransform3DReticle_.translation_.x, worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
+	ImGui::End();
 }
 
 Vector3 Player::GetWorldPosition()
