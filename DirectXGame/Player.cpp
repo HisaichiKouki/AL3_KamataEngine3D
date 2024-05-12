@@ -97,7 +97,7 @@ void Player::Update() {
 
 void Player::Draw(ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	//model_->Draw(worldTransform3DReticle_, viewProjection, textureHandle_);
+	model_->Draw(worldTransform3DReticle_, viewProjection, textureHandle_);
 	for (PlayerBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection);
 	}
@@ -182,7 +182,7 @@ void Player::ScreenToWorld()
 		Multiply(viewProjection_->matView, viewProjection_->matProjection), matViewport);
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
 
-	Matrix4x4 matInverseInverseVPV = Multiply(matInverseVPV, matVPV);
+	Matrix4x4 matInverseInverseVPV = Multiply( matInverseVPV, matVPV);
 
 	Vector3 posNear = Vector3(static_cast<float>(moucePosition.x), static_cast<float>(moucePosition.y), 0);
 	Vector3 posFar = Vector3(static_cast<float>(moucePosition.x), static_cast<float>(moucePosition.y), 1);
@@ -195,8 +195,9 @@ void Player::ScreenToWorld()
 	mouseDirection = Normalize(mouseDirection);
 
 	//カメラから照準までの距離
-	const float kDistanceTestObject = 50;
+	const float kDistanceTestObject = 500;
 	worldTransform3DReticle_.translation_ = (posNear * mouseDirection* kDistanceTestObject);
+	worldTransform3DReticle_.translation_.z = 10;
 	worldTransform3DReticle_.UpdateMatrix();
 
 	ImGui::Begin("Player");

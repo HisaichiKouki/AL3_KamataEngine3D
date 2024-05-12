@@ -88,8 +88,26 @@ Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return resultMatrix;
 }
 
+
+
 Matrix4x4 Inverse(const Matrix4x4& m) {
 
+	/*float InverseA=
+		m.m[0][0]* m.m[1][1] * m.m[2][2] * m.m[3][3] +
+		m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1] +
+		m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2] -
+		m.m[0][0] * m.m[1][3] * m.m[2][2] * m.m[3][1] -
+		m.m[0][0] * m.m[1][2] * m.m[2][1] * m.m[3][3] -
+		m.m[0][0] * m.m[1][1] * m.m[2][3] * m.m[3][2] -
+		m.m[0][1] * m.m[1][0] * m.m[2][2] * m.m[3][3] -
+		m.m[0][2] * m.m[1][0] * m.m[2][3] * m.m[3][1] -
+		m.m[0][3] * m.m[1][0] * m.m[2][1] * m.m[3][2] +
+		m.m[0][3] * m.m[1][0] * m.m[2][2] * m.m[3][1] +
+		m.m[0][2] * m.m[1][0] * m.m[2][1] * m.m[3][3] +
+		m.m[0][1] * m.m[1][0] * m.m[2][3] * m.m[3][2] +
+		m.m[0][1] * m.m[1][2] * m.m[2][0] * m.m[3][3] +
+		m.m[0][2] * m.m[1][3] * m.m[2][0] * m.m[3][1] +*/
+	
 	Matrix4x8 augmented{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
 	for (int row = 0; row < 4; row++) {
 		for (int col = 0; col < 4; col++) {
@@ -99,9 +117,9 @@ Matrix4x4 Inverse(const Matrix4x4& m) {
 
 	for (int row = 0; row < 4; row++) {
 		float pivot = augmented.e[row][row];
-
+		pivot = 1.0f / pivot;
 		for (int col = 0; col < 8; col++) {
-			augmented.e[row][col] /= pivot;
+			augmented.e[row][col] *= pivot;
 		}
 
 		for (int k = 0; k < 4; k++) {
