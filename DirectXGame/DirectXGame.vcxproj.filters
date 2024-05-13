@@ -36,83 +36,83 @@
     <Filter Include="ヘッダー ファイル\Function">
       <UniqueIdentifier>{d43a4f14-55d1-4781-aad8-dd2d506d7033}</UniqueIdentifier>
     </Filter>
-    <Filter Include="シェーダー ファイル\ソース ファイル">
+    <Filter Include="ソース ファイル">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="シェーダー ファイル\ソース ファイル\base">
+    <Filter Include="ソース ファイル\base">
       <UniqueIdentifier>{551d5cf3-f4a6-49b9-832f-076a33cef817}</UniqueIdentifier>
     </Filter>
-    <Filter Include="シェーダー ファイル\ソース ファイル\scene">
+    <Filter Include="ソース ファイル\scene">
       <UniqueIdentifier>{e2d0b4b8-24a1-4854-8e5b-bb6ed09f1add}</UniqueIdentifier>
     </Filter>
-    <Filter Include="シェーダー ファイル\ソース ファイル\input">
+    <Filter Include="ソース ファイル\input">
       <UniqueIdentifier>{337d978c-44b1-4af3-811b-c5f6f355f7de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="シェーダー ファイル\ソース ファイル\math">
+    <Filter Include="ソース ファイル\math">
       <UniqueIdentifier>{4c21a99e-f783-4367-bdcb-0ebd1d434719}</UniqueIdentifier>
     </Filter>
-    <Filter Include="シェーダー ファイル\ソース ファイル\2d">
+    <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="シェーダー ファイル\ソース ファイル\Function">
+    <Filter Include="ソース ファイル\Function">
       <UniqueIdentifier>{38ed5e15-4d8e-480c-896c-0f7266e70aa5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="base\DirectXCommon.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル\base</Filter>
+      <Filter>ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="base\WinApp.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル\base</Filter>
+      <Filter>ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="scene\GameScene.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル\scene</Filter>
+      <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
     <ClCompile Include="2d\ImGuiManager.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル\2d</Filter>
+      <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Function\Vector3AndMatrix4x4.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル\Function</Filter>
+      <Filter>ソース ファイル\Function</Filter>
     </ClCompile>
     <ClCompile Include="3d\WorldTransform.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBullet.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="TimedCall.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Easing.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SkyDome.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="RailCamera.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Catmullrom.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="CatmullRomSpline.cpp">
-      <Filter>シェーダー ファイル\ソース ファイル</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

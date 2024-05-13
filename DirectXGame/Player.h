@@ -26,8 +26,12 @@ public:
 	void Draw(ViewProjection& viewProjection);
 	void Rotate();
 	void Attack();
+	void AttackKeybord();
+	void AttackController();
 	void DrawUI();
-
+	void ReticleMoveController();
+	void MoveController();
+	void MoveKeybord();
 	void WorldToScreen();
 	void ScreenToWorld();
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
