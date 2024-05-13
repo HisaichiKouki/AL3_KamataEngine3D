@@ -10,8 +10,10 @@
 #include <stdlib.h>
 
 #include "Easing.h"
-#include "imgui.h"
+#ifdef _DEBUG
+#include <imgui.h>
 
+#endif // _DEBUG
 #include "Collider.h"
 
 class Player;

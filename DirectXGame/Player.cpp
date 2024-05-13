@@ -73,12 +73,15 @@ void Player::Update() {
 	/*worldTransform3DReticle_.translation_ = Transform(offset, worldTransform_.matWorld_);
 
 	worldTransform3DReticle_.UpdateMatrix();*/
-
+#ifdef _DEBUG
 	ImGui::Begin("debug");
 	ImGui::SliderFloat3("position", &worldTransform_.translation_.x, -1000.0f, 1000.0f);
 	ImGui::SliderFloat3("3DReticleposition", &worldTransform3DReticle_.translation_.x, -1000.0f, 1000.0f);
 	ImGui::DragFloat3("rotate", &worldTransform3DReticle_.rotation_.x, 0.01f);
 	ImGui::End();
+#endif // _DEBUG
+
+	
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
@@ -294,6 +297,7 @@ void Player::ScreenToWorld()
 	//worldTransform3DReticle_.translation_.z = 10;
 	worldTransform3DReticle_.UpdateMatrix();
 
+#ifdef _DEBUG
 	ImGui::Begin("Player");
 	ImGui::Text("2DReticle:(%f,%f)", sprite2Dreticle_->GetPosition().x, sprite2Dreticle_->GetPosition().y);
 	ImGui::Text("Near:(%+.2f,%+.2f,%.2f)", posNear.x, posNear.y, posNear.z);
@@ -301,6 +305,9 @@ void Player::ScreenToWorld()
 	ImGui::Text("Direction:(%+.2f,%+.2f,%.2f)", mouseDirection.x, mouseDirection.y, mouseDirection.z);
 	ImGui::Text("3DReticle:(%+.2f,%+.2f,%.2f)", worldTransform3DReticle_.translation_.x, worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
 	ImGui::End();
+
+#endif // _DEBUG
+
 }
 
 Vector3 Player::GetWorldPosition()

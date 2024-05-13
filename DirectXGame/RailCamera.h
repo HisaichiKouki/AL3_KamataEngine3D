@@ -1,7 +1,11 @@
 #pragma once
 #include <WorldTransform.h>
 #include <ViewProjection.h>
+#ifdef _DEBUG
 #include <imgui.h>
+
+#endif // _DEBUG
+
 class RailCamera
 {
 public:
