@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Audio.h"
 #include "DirectXCommon.h"
 #include "Input.h"
@@ -7,6 +9,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+
+#include "Player.h"
 
 /// <summary>
 /// ゲームシーン
@@ -47,4 +51,13 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+	
+	ViewProjection viewProjection_;
+	uint32_t textureHandle_ = 0;
+	std::unique_ptr<Model> model_;
+	//Model* model_ = nullptr;
+
+	std::unique_ptr<Player> player_;
+	//Player* player_ = nullptr;
+	
 };
