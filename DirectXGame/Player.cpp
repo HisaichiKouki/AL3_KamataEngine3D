@@ -170,7 +170,7 @@ void Player::Attack() {
 		return;
 	}
 	AttackController();
-	//AttackKeybord();
+	AttackKeybord();
 	
 }
 
@@ -271,7 +271,7 @@ void Player::ScreenToWorld()
 	HWND hwnd = WinApp::GetInstance()->GetHwnd();
 	ScreenToClient(hwnd, &moucePosition);
 
-	//sprite2Dreticle_->SetPosition(Vector2(static_cast<float>(moucePosition.x), static_cast<float>(moucePosition.y)));
+	sprite2Dreticle_->SetPosition(Vector2(static_cast<float>(moucePosition.x), static_cast<float>(moucePosition.y)));
 	Matrix4x4 matViewport = MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
 
 	Matrix4x4 matVPV = Multiply(

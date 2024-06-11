@@ -20,6 +20,7 @@ class GameScene;
 class Player :public Collider
 {
 public:
+	
 	~Player();
 	void Initialize(Model*model,uint32_t textureHandle, const Vector3& pos);
 	void Update();

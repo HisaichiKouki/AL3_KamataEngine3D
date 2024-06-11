@@ -62,7 +62,7 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	skydome_->Init(modelSkydome_);
 	railCamera_ = new RailCamera();
-	railCamera_->Init({0.0f,0.0f,-50.0f}, player_->GetWorldTransform().rotation_);
+	railCamera_->Init({ 0.0f,0.0f,-50.0f }, player_->GetWorldTransform().rotation_);//player_->GetWorldTransform().rotation_
 	viewProjection_.matView = railCamera_->GetViewProjection().matView;
 	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 
@@ -76,6 +76,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	
 	UpdateEnemyPopCommands();
 	enemys_.remove_if([](Enemy* enemy) {
 		if (enemy->IsDead()) {
@@ -118,18 +119,21 @@ void GameScene::Update() {
 	if (input_->TriggerKey(DIK_T)) {
 		isDebugCameraActive = !isDebugCameraActive;
 	}
+#endif // _DEBUG
 	if (isDebugCameraActive) {
+
 		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
+
+
 	} else {
 		viewProjection_.matView = railCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 		//viewProjection_.UpdateMatrix();
 	}
-#endif // _DEBUG
 	
 	
 }
