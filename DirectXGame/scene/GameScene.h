@@ -11,6 +11,8 @@
 #include "WorldTransform.h"
 
 #include "Player.h"
+#include "DebugCamera.h"
+#include "SkyDome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -58,6 +60,13 @@ private: // メンバ変数
 	//Model* model_ = nullptr;
 
 	std::unique_ptr<Player> player_;
+
+	DebugCamera* debugCamera_ = nullptr;
+	bool isDebugCameraActive;
+
+	Model* modelSkydome_ = nullptr;
+	SkyDome* skydome_ = nullptr;
+
 	//Player* player_ = nullptr;
 	
 };

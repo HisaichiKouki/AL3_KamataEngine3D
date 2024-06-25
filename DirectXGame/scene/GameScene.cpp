@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <AxisIndicator.h>
 
 GameScene::GameScene() {}
 
@@ -20,9 +21,37 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	//player_ = new Player();
 	player_->Init(model_.get(), textureHandle_);
+
+	debugCamera_ = new DebugCamera(1280, 720);
+	AxisIndicator::GetInstance()->SetVisible(true);
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+
+	skydome_ = new SkyDome();
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+	skydome_->Init(modelSkydome_);
 }
 
-void GameScene::Update() { player_->Update(); }
+void GameScene::Update() {
+	player_->Update();
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_T)) {
+		isDebugCameraActive = !isDebugCameraActive;
+	}
+#endif // _DEBUG
+	if (isDebugCameraActive) {
+
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+
+	} else {
+		/*viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();*/
+		// viewProjection_.UpdateMatrix();
+	}
+}
 
 void GameScene::Draw() {
 
