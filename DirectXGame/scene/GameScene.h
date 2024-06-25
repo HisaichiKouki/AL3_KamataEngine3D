@@ -10,8 +10,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-#include "Player.h"
 #include "DebugCamera.h"
+#include "Player.h"
 #include "SkyDome.h"
 
 /// <summary>
@@ -53,20 +53,21 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
+
 	ViewProjection viewProjection_;
 	uint32_t textureHandle_ = 0;
 	std::unique_ptr<Model> model_;
-	//Model* model_ = nullptr;
+	// Model* model_ = nullptr;
 
 	std::unique_ptr<Player> player_;
 
-	DebugCamera* debugCamera_ = nullptr;
+	std::unique_ptr<DebugCamera> debugCamera_;
 	bool isDebugCameraActive;
 
-	Model* modelSkydome_ = nullptr;
-	SkyDome* skydome_ = nullptr;
+	std::unique_ptr<Model> modelSkydome_;
+	std::unique_ptr<SkyDome> skydome_;
 
-	//Player* player_ = nullptr;
-	
+	std::unique_ptr<Model> modelGround_;
+	std::unique_ptr<SkyDome> ground_;
+	// Player* player_ = nullptr;
 };

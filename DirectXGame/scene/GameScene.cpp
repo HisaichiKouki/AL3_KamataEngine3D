@@ -22,17 +22,30 @@ void GameScene::Initialize() {
 	//player_ = new Player();
 	player_->Init(model_.get(), textureHandle_);
 
-	debugCamera_ = new DebugCamera(1280, 720);
+	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
+	
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
-	skydome_ = new SkyDome();
-	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
-	skydome_->Init(modelSkydome_);
+	skydome_ = std::make_unique<SkyDome>();
+	modelSkydome_ = std::make_unique<Model>();
+	modelSkydome_.reset(Model::CreateFromOBJ("skydome", true));
+	//modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+	skydome_->Init(modelSkydome_.get());
+
+	ground_ = std::make_unique<SkyDome>();
+	modelGround_ = std::make_unique<Model>();
+	modelGround_.reset(Model::CreateFromOBJ("ground", true));
+	ground_->Init(modelGround_.get());
+	isDebugCameraActive = false;
 }
 
 void GameScene::Update() {
 	player_->Update();
+	skydome_->Update();
+	ground_->Update();
+
+
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_T)) {
 		isDebugCameraActive = !isDebugCameraActive;
@@ -65,7 +78,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -79,6 +91,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	skydome_->Draw(viewProjection_);
+	ground_->Draw(viewProjection_);
 
 	player_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
